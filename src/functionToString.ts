@@ -16,6 +16,7 @@ export default function functionToString(
       filename: 'unknown.js',
     })?.code || undefined;
 
-  if (code?.endsWith?.(';')) return code.substring(1, code.length - 2);
+  if (typeof code === 'string' && code.startsWith('(') && code.endsWith?.(');'))
+    return code.substring(1, code.length - 2);
   return code;
 }
