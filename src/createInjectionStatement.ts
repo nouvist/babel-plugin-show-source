@@ -1,19 +1,20 @@
 import { types } from '@babel/core';
 
 const TO_STRING_EXCEPTION = `function() {
-  throw new Error("\"show source\" directive is not processed correcty.");
+  throw new Error("babel-plugin-show-source directive is not processed correcty.");
 }`;
 
 export default function createInjectionStatement(
   funcId: string,
-  funcCode?: string,
+  funcCode: string | undefined | null,
+  property: string,
 ) {
   return types.expressionStatement(
     types.assignmentExpression(
       '=',
       types.memberExpression(
         types.identifier(funcId),
-        types.identifier('toString'),
+        types.identifier(property),
       ),
       types.functionExpression(
         undefined,

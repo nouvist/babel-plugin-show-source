@@ -5,6 +5,8 @@ import { functionDeclarationToString } from './functionDeclarationToString';
 
 interface Options {
   removeDirective: boolean;
+  directive: string;
+  property: string;
 }
 
 function babelPluginShowSource(
@@ -12,13 +14,15 @@ function babelPluginShowSource(
 ): Partial<PluginObj> {
   const options: Options = {
     removeDirective: false,
+    directive: 'show source',
+    property: 'toString',
     ..._options,
   };
 
   return {
     visitor: {
       Directive(path) {
-        const isShowSource = path.node.value.value === 'show source';
+        const isShowSource = path.node.value.value === options.directive;
         if (!isShowSource) return;
         if (options.removeDirective) path.remove();
 
@@ -36,6 +40,7 @@ function babelPluginShowSource(
           const injectionStatement = createInjectionStatement(
             func.node.id!.name,
             funcCode,
+            options.property,
           );
 
           // func.replaceWithMultiple([func.node, injectionStatement]);
@@ -48,7 +53,7 @@ function babelPluginShowSource(
             ...funcParent.node.body.slice(idx + 1),
           ];
         } else if (func.isFunctionExpression()) {
-          const newFunc = createInjectionWrapper(func);
+          const newFunc = createInjectionWrapper(func, options.property);
 
           func.replaceWith(newFunc);
           func.skip();

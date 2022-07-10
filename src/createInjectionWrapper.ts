@@ -3,6 +3,7 @@ import createInjectionStatement from './createInjectionStatement';
 
 export default function createInjectionWrapper(
   path: NodePath<types.ArrowFunctionExpression | types.FunctionExpression>,
+  property: string,
 ) {
   const id = types.identifier('f');
   return types.callExpression(
@@ -13,7 +14,7 @@ export default function createInjectionWrapper(
         types.variableDeclaration('const', [
           types.variableDeclarator(id, path.node),
         ]),
-        createInjectionStatement(id.name, 'epic'),
+        createInjectionStatement(id.name, 'epic', property),
         types.returnStatement(id),
       ]),
     ),
