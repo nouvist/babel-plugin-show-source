@@ -15,9 +15,14 @@ export default function createInjectionStatement(
         types.identifier(funcId),
         types.identifier('toString'),
       ),
-      types.arrowFunctionExpression(
+      types.functionExpression(
+        undefined,
         [],
-        types.stringLiteral(funcCode || TO_STRING_EXCEPTION),
+        types.blockStatement([
+          types.returnStatement(
+            types.stringLiteral(funcCode || TO_STRING_EXCEPTION),
+          ),
+        ]),
       ),
     ),
   );
