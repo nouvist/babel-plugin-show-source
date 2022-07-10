@@ -1,6 +1,11 @@
-# :sparkles: babel-plugin-show-source :sparkles:
+<h1 align="center">
+  ✨ babel-plugin-show-source ✨
+</h1>
 
-Babel Plugin for `"show source"` directive in order to make `Function.prototype.toString()` always available, even on bytecode JS.
+![npm](https://img.shields.io/npm/v/babel-plugin-show-source)
+![GitHub](https://img.shields.io/github/license/nouvist/babel-plugin-show-source)
+
+Babel plugin for `"show source"` directive in order to make `Function.prototype.toString()` always available, even on bytecode JS.
 
 ## Installation
 
