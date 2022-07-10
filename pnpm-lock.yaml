@@ -8,6 +8,7 @@ specifiers:
   '@babel/preset-typescript': ^7.18.6
   '@types/babel__core': ^7.1.19
   '@types/node': ^18.0.3
+  rimraf: ^3.0.2
   typescript: ^4.7.4
 
 devDependencies:
@@ -18,6 +19,7 @@ devDependencies:
   '@babel/preset-typescript': 7.18.6_@babel+core@7.18.6
   '@types/babel__core': 7.1.19
   '@types/node': 18.0.3
+  rimraf: 3.0.2
   typescript: 4.7.4
 
 packages:
@@ -1505,7 +1507,7 @@ packages:
     dev: true
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: true
 
   /convert-source-map/1.8.0:
@@ -2130,6 +2132,13 @@ packages:
       is-core-module: 2.9.0
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
+    dev: true
+
+  /rimraf/3.0.2:
+    resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    hasBin: true
+    dependencies:
+      glob: 7.2.3
     dev: true
 
   /safe-buffer/5.1.2:

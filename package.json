@@ -2,7 +2,7 @@
   "name": "babel-plugin-show-source",
   "version": "0.1.1",
   "license": "MIT",
-  "description": "Explicit Function.prototype.toString() with Babel",
+  "description": "Explicit Function.prototype.toString() via Babel",
   "author": {
     "name": "Nouvistiardi",
     "email": "hello@nouvist.cyou",
@@ -19,10 +19,13 @@
     "babel-plugin-show-source"
   ],
   "main": "./build/main.js",
-  "types": "./src/main.ts",
+  "types": "./types/main.d.ts",
   "scripts": {
     "dev": "babel-node -x .ts ./test/main.ts",
-    "build": "babel -x .ts -d build ./src"
+    "build": "pnpm build:clean && pnpm build:babel && pnpm build:tsc",
+    "build:clean": "rimraf ./build && rimraf ./types",
+    "build:babel": "babel -x .ts -d ./build ./src",
+    "build:tsc": "tsc"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.6",
@@ -32,6 +35,7 @@
     "@babel/preset-typescript": "^7.18.6",
     "@types/babel__core": "^7.1.19",
     "@types/node": "^18.0.3",
+    "rimraf": "^3.0.2",
     "typescript": "^4.7.4"
   },
   "peerDependencies": {
