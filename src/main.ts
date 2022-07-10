@@ -7,7 +7,7 @@ interface Options {
   removeDirective: boolean;
 }
 
-export default function babelPluginShowSource(
+function babelPluginShowSource(
   _options?: Partial<Options>,
 ): Partial<PluginObj> {
   const options: Options = {
@@ -38,7 +38,15 @@ export default function babelPluginShowSource(
             funcCode,
           );
 
-          func.replaceWithMultiple([func.node, injectionStatement]);
+          // func.replaceWithMultiple([func.node, injectionStatement]);
+          // replaceWithMultiple trigger maximum call stack
+          // even with func.skip() method
+          const idx = funcParent.node.body.indexOf(func.node);
+          funcParent.node.body = [
+            ...funcParent.node.body.slice(0, idx + 1),
+            injectionStatement,
+            ...funcParent.node.body.slice(idx + 1),
+          ];
         } else if (func.isFunctionExpression()) {
           const newFunc = createInjectionWrapper(func);
 
@@ -49,3 +57,7 @@ export default function babelPluginShowSource(
     },
   };
 }
+
+export default babelPluginShowSource;
+// Babel is still using CommonJS
+module.exports = babelPluginShowSource;
