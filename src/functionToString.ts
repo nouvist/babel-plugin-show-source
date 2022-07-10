@@ -5,9 +5,11 @@ export default function functionToString(
 ) {
   let program: types.Program;
   if (path.isFunctionDeclaration()) program = types.program([path.node]);
-  program = types.program([
-    types.expressionStatement(path.node as types.FunctionExpression),
-  ]);
+  else if (path.isFunctionExpression())
+    program = types.program([
+      types.expressionStatement(path.node as types.FunctionExpression),
+    ]);
+  else return undefined;
 
   const code =
     transformFromAstSync(program, undefined, {

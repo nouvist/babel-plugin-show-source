@@ -2,10 +2,19 @@
   ✨ babel-plugin-show-source ✨
 </h1>
 
-![npm](https://img.shields.io/npm/v/babel-plugin-show-source)
-![GitHub](https://img.shields.io/github/license/nouvist/babel-plugin-show-source)
+[![npm](https://img.shields.io/npm/v/babel-plugin-show-source)](https://npmjs.com/package/babel-plugin-show-source)
+[![GitHub](https://img.shields.io/github/license/nouvist/babel-plugin-show-source)](https://github.com/nouvist/babel-plugin-show-source)
 
 Babel plugin for `"show source"` directive in order to make `Function.prototype.toString()` always available, even on bytecode JS.
+
+## Table of contents
+
+- [Tabble of contents](#table-of-contents)
+- [Installation](#installation)
+- [How this plugin works](#how-this-plugin-works)
+- [Usage](#usage)
+  - [Options](#options)
+- [License](#license)
 
 ## Installation
 
@@ -20,23 +29,22 @@ yarn add -D babel-plugin-show-source
 pnpm add -D babel-plugin-show-source
 ```
 
-## How this plugin works
-
-This plugin will add explicit `toString()` function to any function that using the `"show source"` directive.
+And then, add this module to your Babel config.
 
 ```js
-// from
-function myFunction() {
-  'show source';
-  return 1337;
-}
-// to
-function myFunction() {
-  'show source';
-  return 1337;
-}
-myFunction.toString = function () {
-  return 'function myFunction() {\n  "show source";\n  return 1337;\n}';
+//babel.config.js
+const babelPluginShowSource = require('babel-plugin-show-source');
+module.exports = {
+  plugins: [
+    // you could do this way
+    // and you don't need to required the module
+    'babel-plugin-show-source',
+    // or if you need to add some options
+    // do this way instead
+    babelPluginShowSource({
+      // options here
+    }),
+  ],
 };
 ```
 
@@ -45,27 +53,20 @@ myFunction.toString = function () {
 In order to use this plugin, you could simply use the `"show source"` directive in your function.
 
 ```js
-//babel.config.js
-const babelPluginShowSource = require('babel-plugin-show-source');
-
-module.exports = {
-  plugins: [
-    babelPluginShowSource({
-      // options here
-      // although, you can leave it undefined
-    }),
-  ],
-};
-```
-
-```js
 function fibonacci(num) {
   'show source';
-
   if (num <= 2) return 1;
   else return fibonacci(num - 2) + fibonacci(num - 1);
 }
 ```
+
+### Options
+
+| Name            | Type    | default         | Description                    |
+| --------------- | ------- | --------------- | ------------------------------ |
+| removeDirective | boolean | `false`         | remove the directive on output |
+| directive       | string  | `'show source'` | directive string               |
+| property        | string  | `'toString'`    | property name                  |
 
 ## License
 
