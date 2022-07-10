@@ -1,6 +1,7 @@
 {
   "name": "babel-plugin-show-source",
   "version": "0.1.0",
+  "license": "MIT",
   "description": "Explicit Function.prototype.toString() with Babel",
   "author": {
     "name": "Nouvistiardi",
