@@ -17,7 +17,7 @@
     "to-string",
     "babel-plugin-show-source"
   ],
-  "main": "./dist/main.js",
+  "main": "./build/main.js",
   "types": "./src/main.ts",
   "scripts": {
     "dev": "babel-node -x .ts ./test/main.ts",
