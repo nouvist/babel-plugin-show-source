@@ -1,7 +1,7 @@
 import { PluginObj, types } from '@babel/core';
 import createInjectionStatement from './createInjectionStatement';
 import createInjectionWrapper from './createInjectionWrapper';
-import { functionDeclarationToString } from './functionDeclarationToString';
+import functionToString from './functionToString';
 
 interface Options {
   removeDirective: boolean;
@@ -36,7 +36,7 @@ function babelPluginShowSource(
           funcParent !== null &&
           (funcParent.isBlockStatement() || funcParent.isProgram())
         ) {
-          const funcCode = functionDeclarationToString(func.node);
+          const funcCode = functionToString(func);
           const injectionStatement = createInjectionStatement(
             func.node.id!.name,
             funcCode,
@@ -53,7 +53,12 @@ function babelPluginShowSource(
             ...funcParent.node.body.slice(idx + 1),
           ];
         } else if (func.isFunctionExpression()) {
-          const newFunc = createInjectionWrapper(func, options.property);
+          const funcCode = functionToString(func);
+          const newFunc = createInjectionWrapper(
+            func,
+            funcCode,
+            options.property,
+          );
 
           func.replaceWith(newFunc);
           func.skip();

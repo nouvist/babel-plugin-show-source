@@ -1,5 +1,5 @@
 import { transformSync } from '@babel/core';
-import babelPluginShowSource from '../';
+import babelPluginShowSource from '../src/main';
 
 function transform(code: string) {
   return transformSync(code, {

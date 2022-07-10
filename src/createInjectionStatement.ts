@@ -6,7 +6,7 @@ const TO_STRING_EXCEPTION = `function() {
 
 export default function createInjectionStatement(
   funcId: string,
-  funcCode: string | undefined | null,
+  funcCode: string | undefined,
   property: string,
 ) {
   return types.expressionStatement(
