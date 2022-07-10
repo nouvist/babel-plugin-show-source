@@ -39,6 +39,11 @@ export default function babelPluginShowSource(
           );
 
           func.replaceWithMultiple([func.node, injectionStatement]);
+        } else if (func.isFunctionExpression()) {
+          const newFunc = createInjectionWrapper(func);
+
+          func.replaceWith(newFunc);
+          func.skip();
         }
       },
     },
