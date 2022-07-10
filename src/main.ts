@@ -1,8 +1,14 @@
 import { PluginObj, types } from '@babel/core';
-import { createInjectionStatement } from './createInjectionAst';
+import createInjectionStatement from './createInjectionStatement';
 import { functionDeclarationToString } from './functionDeclarationToString';
 
-export default function babelPluginShowSource(): Partial<PluginObj> {
+interface Options {
+  removeDirective?: boolean;
+}
+
+export default function babelPluginShowSource(
+  options?: Options,
+): Partial<PluginObj> {
   return {
     visitor: {
       Directive(path) {
@@ -10,6 +16,8 @@ export default function babelPluginShowSource(): Partial<PluginObj> {
         if (!isShowSource) return;
 
         const func = path.parentPath.parentPath;
+        if (options.removeDirective) path.remove();
+
         if (func === null || !func.isFunctionDeclaration()) return true;
 
         const funcParent = func.parentPath;

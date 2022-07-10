@@ -4,7 +4,11 @@ import babelPluginShowSource from './main';
 function transform(code: string) {
   return transformSync(code, {
     filename: 'unknown.ts',
-    plugins: [babelPluginShowSource],
+    plugins: [
+      babelPluginShowSource({
+        removeDirective: true,
+      }),
+    ],
   });
 }
 
