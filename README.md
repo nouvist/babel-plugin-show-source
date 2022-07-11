@@ -11,7 +11,7 @@ Babel plugin for `"show source"` directive in order to make `Function.prototype.
 
 ## Table of contents
 
-- [Tabble of contents](#table-of-contents)
+- [Table of contents](#table-of-contents)
 - [Installation](#installation)
   - [Options](#options)
 - [Usage](#usage)
