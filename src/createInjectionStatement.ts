@@ -1,7 +1,7 @@
 import { types } from '@babel/core';
 
 const TO_STRING_EXCEPTION = `function() {
-  throw new Error("babel-plugin-show-source directive is not processed correcty.");
+  return null;
 }`;
 
 export default function createInjectionStatement(
