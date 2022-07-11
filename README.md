@@ -34,17 +34,16 @@ And then, add this module to your Babel config.
 
 ```js
 //babel.config.js
-const babelPluginShowSource = require('babel-plugin-show-source');
 module.exports = {
   plugins: [
-    // you could do this way
-    // and you don't need to required the module
     'babel-plugin-show-source',
-    // or if you need to add some options
-    // do this way instead
-    babelPluginShowSource({
-      // options here
-    }),
+    // or with options
+    [
+      'babel-plugin-show-source',
+      {
+        removeDirective: true,
+      },
+    ],
   ],
 };
 ```

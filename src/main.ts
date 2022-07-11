@@ -1,4 +1,4 @@
-import { PluginObj, types } from '@babel/core';
+import { ConfigAPI, PluginObj } from '@babel/core';
 import createInjectionStatement from './createInjectionStatement';
 import createInjectionWrapper from './createInjectionWrapper';
 import functionToString from './functionToString';
@@ -10,6 +10,7 @@ interface Options {
 }
 
 function babelPluginShowSource(
+  api: ConfigAPI,
   _options?: Partial<Options>,
 ): Partial<PluginObj> {
   const options: Options = {
@@ -43,15 +44,8 @@ function babelPluginShowSource(
             options.property,
           );
 
-          // func.replaceWithMultiple([func.node, injectionStatement]);
-          // ! replaceWithMultiple trigger maximum call stack
-          // even with func.skip() method
-          const idx = funcParent.node.body.indexOf(func.node);
-          funcParent.node.body = [
-            ...funcParent.node.body.slice(0, idx + 1),
-            injectionStatement,
-            ...funcParent.node.body.slice(idx + 1),
-          ];
+          func.replaceWithMultiple([func.node, injectionStatement]);
+          func.skip();
         } else if (
           func.isFunctionExpression() ||
           func.isArrowFunctionExpression()
@@ -72,5 +66,4 @@ function babelPluginShowSource(
 }
 
 export default babelPluginShowSource;
-// Babel is still using CommonJS
 module.exports = babelPluginShowSource;
