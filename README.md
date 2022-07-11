@@ -7,8 +7,6 @@
 
 Babel plugin for `"show source"` directive in order to make `Function.prototype.toString()` always available, even on bytecode JS.
 
-> Note: this plugin will stringify your function using Babel transform which means that it also includes polyfill you are using.
-
 ## Table of contents
 
 - [Table of contents](#table-of-contents)
