@@ -1,7 +1,12 @@
 import { NodePath, transformFromAstSync, types } from '@babel/core';
 
+// ! arrow function currently doesn't work
 export default function functionToString(
-  path: NodePath<types.FunctionDeclaration | types.FunctionExpression>,
+  path: NodePath<
+    | types.FunctionDeclaration
+    | types.FunctionExpression
+    | types.ArrowFunctionExpression
+  >,
 ) {
   let program: types.Program;
   if (path.isFunctionDeclaration()) program = types.program([path.node]);

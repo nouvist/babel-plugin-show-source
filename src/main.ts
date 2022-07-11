@@ -44,7 +44,7 @@ function babelPluginShowSource(
           );
 
           // func.replaceWithMultiple([func.node, injectionStatement]);
-          // replaceWithMultiple trigger maximum call stack
+          // ! replaceWithMultiple trigger maximum call stack
           // even with func.skip() method
           const idx = funcParent.node.body.indexOf(func.node);
           funcParent.node.body = [
@@ -52,7 +52,10 @@ function babelPluginShowSource(
             injectionStatement,
             ...funcParent.node.body.slice(idx + 1),
           ];
-        } else if (func.isFunctionExpression()) {
+        } else if (
+          func.isFunctionExpression() ||
+          func.isArrowFunctionExpression()
+        ) {
           const funcCode = functionToString(func);
           const newFunc = createInjectionWrapper(
             func,

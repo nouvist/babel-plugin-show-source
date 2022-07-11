@@ -61,7 +61,7 @@ test('FunctionExpression', () => {
   expect(run(code, true)).toBe(num);
 });
 
-test('ArrowFunction', () => {
+test('ArrowFunctionExpression', () => {
   const num = Math.round(Math.random() * 1e4);
 
   const code = `
