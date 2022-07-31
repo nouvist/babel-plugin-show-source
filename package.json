@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-show-source",
-  "version": "0.1.5",
+  "version": "0.2.1",
   "license": "MIT",
   "description": "Explicit Function.prototype.toString() via Babel",
   "author": {
@@ -23,6 +23,7 @@
   "scripts": {
     "dev": "jest",
     "dev:watch": "jest --watch",
+    "prepublish": "pnpm build",
     "build": "pnpm build:clean && pnpm build:babel && pnpm build:tsc",
     "build:clean": "rimraf ./build && rimraf ./types",
     "build:babel": "babel -x .ts -d ./build ./src",
