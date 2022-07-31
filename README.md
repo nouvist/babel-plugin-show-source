@@ -12,6 +12,7 @@ Babel plugin for `"show source"` directive in order to make `Function.prototype.
 - [Table of contents](#table-of-contents)
 - [Installation](#installation)
   - [Options](#options)
+  - [With React Native Hermes](#with-react-native-hermes)
 - [Usage](#usage)
 - [License](#license)
 
@@ -31,7 +32,7 @@ pnpm add -D babel-plugin-show-source
 And then, add this module to your Babel config.
 
 ```js
-//babel.config.js
+// babel.config.js
 module.exports = {
   plugins: [
     'babel-plugin-show-source',
@@ -40,6 +41,26 @@ module.exports = {
       'babel-plugin-show-source',
       {
         removeDirective: true,
+      },
+    ],
+  ],
+};
+```
+
+### With React Native Hermes
+
+React Native Hermes does have native implementation for it, but it doesn't work as expected just yet. See [issue#612](https://github.com/facebook/hermes/issues/612). This plugin initiated as alternative to Hermes built in implementation and as temporary solution to it. If you want to use it with Hermes, you should change the directive other than `'show source'`, otherwise it will conflicting with Hermes and make inconsistent result.
+
+```js
+// babel.config.js in React Native project
+module.exports = {
+  presets: ['module:metro-react-native-babel-preset'],
+  plugins: [
+    [
+      'babel-plugin-show-source',
+      {
+        directive: 'show source please',
+        // change the directive when in use with hermes
       },
     ],
   ],
@@ -61,6 +82,7 @@ In order to use this plugin, you could simply use the `"show source"` directive 
 ```js
 function fibonacci(num) {
   'show source';
+  // use the specified directive
   if (num <= 2) return 1;
   else return fibonacci(num - 2) + fibonacci(num - 1);
 }
@@ -68,4 +90,4 @@ function fibonacci(num) {
 
 ## License
 
-The MIT License
+MIT License
