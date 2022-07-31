@@ -10,10 +10,13 @@ export function run(_code: string, opts?: TransformOptions) {
       filename: 'unknown.ts',
       plugins: [
         ...(opts?.plugins || []),
-        babelPluginShowSource({
-          property,
-          removeDirective: true,
-        }),
+        [
+          './src/main.ts',
+          {
+            property,
+            removeDirective: true,
+          },
+        ],
       ],
     })?.code || '';
 
