@@ -1,19 +1,20 @@
-import { TransformOptions, transformSync } from '@babel/core';
+import { transformSync } from '@babel/core';
+import { randomBytes, randomInt } from 'crypto';
 import { Script } from 'vm';
-import babelPluginShowSource from '../src/main';
 
-export function run(_code: string, opts?: TransformOptions) {
-  const property = 'toString2';
+export function run(_code: string, removeFunction?: boolean) {
+  // differentiate to native .toString()
+  const property = 'toString' + randomBytes(8).toString('hex');
+
   const code =
     transformSync(_code, {
-      ...opts,
       filename: 'unknown.ts',
       plugins: [
-        ...(opts?.plugins || []),
         [
           './src/main.ts',
           {
             property,
+            removeFunction,
             removeDirective: true,
           },
         ],
@@ -28,67 +29,70 @@ export function run(_code: string, opts?: TransformOptions) {
 
   const script = new Script(injected).runInNewContext();
 
-  if (script === null) return [null, script];
+  if (script === null) return [null, code];
 
-  return [new Script(`(${script})();`).runInNewContext(), script];
+  return [new Script(`(${script})();`).runInNewContext(), code];
 }
 
-test('FunctionDeclaration', () => {
-  const num = Math.round(Math.random() * 1e4);
+function createCases(num: number) {
+  return [
+    [
+      'FunctionDeclaration',
+      `
+    function foobar() {
+      'show source';
+      return ${num};
+    }
+    str(foobar);`,
+    ],
+    [
+      'async FunctionDeclaration',
+      `
+    async function foobar() {
+      'show source';
+      return ${num};
+    }
+    str(foobar);`,
+    ],
+    [
+      'FunctionExpression',
+      `
+    const foobar = function() {
+      'show source';
+      return ${num};
+    };
+    str(foobar);`,
+    ],
+    [
+      'ArrowFunctionExpression',
+      `
+    const foobar = () => {
+      'show source';
+      return ${num};
+    };
+    str(foobar);`,
+    ],
+    [
+      'async ArrowFunctionExpression',
+      `
+    const foobar = async () => {
+      'show source';
+      return ${num};
+    };
+    str(foobar);`,
+    ],
+  ];
+}
 
-  const code = `
-  function foobar() {
-    'show source';
-    return ${num};
-  }
-  str(foobar);`;
+const num = randomInt(1000, 9999);
 
-  const [result, resultCode] = run(code);
-  console.log(resultCode);
-  expect(result).toBe(num);
-});
-
-test('FunctionExpression', () => {
-  const num = Math.round(Math.random() * 1e4);
-
-  const code = `
-  const foobar = function() {
-    'show source';
-    return ${num};
-  };
-  str(foobar);`;
-
-  const [result, resultCode] = run(code);
-  console.log(resultCode);
-  expect(result).toBe(num);
-});
-
-test('ArrowFunctionExpression', () => {
-  const num = Math.round(Math.random() * 1e4);
-
-  const code = `
-  const foobar = () => {
-    'show source';
-    return ${num};
-  };
-  str(foobar);`;
-
-  const [result, resultCode] = run(code);
-  console.log(resultCode);
-  expect(result).toBe(num);
-});
-
-test('async ArrowFunctionExpression', async () => {
-  const num = Math.round(Math.random() * 1e4);
-
-  const code = `
-  const foobar = async () => {
-    'show source';
-    return ${num};
-  };
-  str(foobar);`;
-
-  const [result, resultCode] = run(code);
-  console.log(resultCode);
-  expect(await result).toBe(num);
+describe.each(createCases(num))('function %p', (_, code: string) => {
+  test.each([true, false])(
+    'removeFunction %p',
+    async (removeFunction: boolean) => {
+      const [result, resultCode] = run(code, removeFunction);
+      console.log(resultCode);
+      expect(await result).toBe(num);
+    },
+  );
 });

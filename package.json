@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-show-source",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
   "description": "Explicit Function.prototype.toString() via Babel",
   "author": {

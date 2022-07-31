@@ -69,11 +69,14 @@ module.exports = {
 
 ### Options
 
-| Name            | Type    | default         | Description                    |
-| --------------- | ------- | --------------- | ------------------------------ |
-| removeDirective | boolean | `false`         | remove the directive on output |
-| directive       | string  | `'show source'` | directive string               |
-| property        | string  | `'toString'`    | property name                  |
+| Name            | Type    | default         | Description                                                                  |
+| --------------- | ------- | --------------- | ---------------------------------------------------------------------------- |
+| removeDirective | boolean | `false`         | remove the directive on the output                                           |
+| removeFunction  | boolean | `false`         | return as object with `toString()` method without the full callable function |
+| directive       | string  | `'show source'` | directive string                                                             |
+| property        | string  | `'toString'`    | property name                                                                |
+
+> **Note**: FunctionDeclaration sometimes throw an Error, it is recommended to set `removeFunction` as `true`.
 
 ## Usage
 

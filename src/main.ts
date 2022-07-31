@@ -7,6 +7,7 @@ interface Options {
   removeDirective: boolean;
   directive: string;
   property: string;
+  removeFunction: boolean;
 }
 
 function babelPluginShowSource(
@@ -17,6 +18,7 @@ function babelPluginShowSource(
     removeDirective: false,
     directive: 'show source',
     property: 'toString',
+    removeFunction: false,
     ..._options,
   };
 
@@ -42,9 +44,15 @@ function babelPluginShowSource(
             func.node.id!.name,
             funcCode,
             options.property,
+            options.removeFunction,
           );
 
-          func.replaceWithMultiple([func.node, injectionStatement]);
+          if (options.removeFunction) {
+            func.replaceWith(injectionStatement);
+          } else {
+            func.replaceWithMultiple([func.node, injectionStatement]);
+          }
+
           func.skip();
         } else if (
           func.isFunctionExpression() ||
@@ -55,6 +63,7 @@ function babelPluginShowSource(
             func,
             funcCode,
             options.property,
+            options.removeFunction,
           );
 
           func.replaceWith(newFunc);
